@@ -8,11 +8,14 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: 7f9cf8288d2afe145a8e09b9a6d1782d
+  - enabled: 1
+    path: Assets/Scenes/TerrainGenTest.unity
+    guid: 49e4ca8dc1efb6c4e9c7d1d4fffb0f36
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: dc403ecf67ee1134a9e9e4d696783184, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 81829c05a4cf2454fbd40792a1e1aabe, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: e49e6fcbb8b9a8745b12e7a8da5e9bd6, type: 2}
