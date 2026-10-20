@@ -706,7 +706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1777427969
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1183,7 +1183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapGenerator
   drawMode: 2
-  levelOfDetail: 6
+  editorLODPreview: 0
   noiseScale: 60
   octaves: 2
   persistance: 0.42
@@ -1250,6 +1250,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e343e63476c75d841b860f2c432b1971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndlessTerrain
+  detailLevels:
+  - lod: 0
+    visibleDistanceThreshold: 200
+  - lod: 1
+    visibleDistanceThreshold: 400
+  - lod: 2
+    visibleDistanceThreshold: 600
   viewer: {fileID: 1022547790}
   material: {fileID: 2100000, guid: 609624eb59e7ff44b95199c0356e2232, type: 2}
 --- !u!1660057539 &9223372036854775807
