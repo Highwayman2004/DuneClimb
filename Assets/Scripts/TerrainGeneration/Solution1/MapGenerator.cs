@@ -107,17 +107,33 @@ public class MapGenerator : MonoBehaviour
 
     void Update()
     {
-        if(mapDataThreadInfoQueue.Count > 0)
+        /*if(mapDataThreadInfoQueue.Count > 0)
         {
             for(int i = 0; i < mapDataThreadInfoQueue.Count; i++ )
             {
                 MapThreadInfo<MapData> threadInfo = mapDataThreadInfoQueue.Dequeue();
                 threadInfo.callback(threadInfo.parameter);
             }
+        }*/
+        lock (mapDataThreadInfoQueue)
+        {
+            while (mapDataThreadInfoQueue.Count > 0)
+            {
+                MapThreadInfo<MapData> threadInfo = mapDataThreadInfoQueue.Dequeue();
+                threadInfo.callback(threadInfo.parameter);
+            }
         }
-        if(meshDataThreadInfoQueue.Count > 0)
+        /*if (meshDataThreadInfoQueue.Count > 0)
         {
             for (int i = 0; i < meshDataThreadInfoQueue.Count; i++)
+            {
+                MapThreadInfo<MeshData> threadInfo = meshDataThreadInfoQueue.Dequeue();
+                threadInfo.callback(threadInfo.parameter);
+            }
+        }*/
+        lock (meshDataThreadInfoQueue)
+        {
+            while (meshDataThreadInfoQueue.Count > 0)
             {
                 MapThreadInfo<MeshData> threadInfo = meshDataThreadInfoQueue.Dequeue();
                 threadInfo.callback(threadInfo.parameter);

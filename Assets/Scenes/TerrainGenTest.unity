@@ -879,6 +879,7 @@ GameObject:
   - component: {fileID: 1777427970}
   - component: {fileID: 1777427969}
   - component: {fileID: 1777427972}
+  - component: {fileID: 1777427973}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -980,6 +981,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 353846549}
+--- !u!114 &1777427973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777427968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16232085beef7654e97a896500d7c66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HideOnPlay
 --- !u!1 &1915054434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,7 +1182,6 @@ MonoBehaviour:
   textureRenderer: {fileID: 644917686}
   meshFilter: {fileID: 1777427970}
   meshRenderer: {fileID: 1777427969}
-  meshCollider: {fileID: 1777427972}
 --- !u!114 &2058807837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1247,13 +1259,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EndlessTerrain
   detailLevels:
   - lod: 0
-    visibleDistanceThreshold: 200
+    visibleDistanceThreshold: 100
+    useForCollider: 0
   - lod: 1
+    visibleDistanceThreshold: 250
+    useForCollider: 1
+  - lod: 4
     visibleDistanceThreshold: 400
-  - lod: 2
-    visibleDistanceThreshold: 600
-  viewer: {fileID: 1022547790}
+    useForCollider: 0
+  viewer: {fileID: 2124687048}
   material: {fileID: 2100000, guid: 609624eb59e7ff44b95199c0356e2232, type: 2}
+--- !u!4 &2124687048 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2011908202453670415, guid: f72d858d6968f604eb3be996fc7f16d1, type: 3}
+  m_PrefabInstance: {fileID: 509199113}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
