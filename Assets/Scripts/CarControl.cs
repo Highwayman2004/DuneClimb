@@ -7,6 +7,7 @@ public class CarControl : MonoBehaviour
 {
     [SerializeField] SteeringWheel steeringWheel;
     [SerializeField] GearLever gearLever;
+    [SerializeField] FuelController fuelController;
     [SerializeField] float motorTorque = 2000f;
     [SerializeField] float brakeTorque = 2000f;
     [SerializeField] float maxSpeed = 20f;
@@ -35,14 +36,20 @@ public class CarControl : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.linearVelocity);
+        fuelController.UseFuel(Mathf.Abs(forwardSpeed));
+    }
+
 
     void FixedUpdate()
     {
-        float steeringFactor = steeringWheel.GetNormalizedSteeringValue();
-        float power = gearLever.GetNormalizedSpeedValue();
-
         float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.linearVelocity);
         float speedFactor = Mathf.InverseLerp(0, maxSpeed, Mathf.Abs(forwardSpeed));
+
+        float steeringFactor = steeringWheel.GetNormalizedSteeringValue();
+        float power = fuelController.HasFuel ? gearLever.GetNormalizedSpeedValue() : -Mathf.Sign(forwardSpeed);
 
         float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor);
         float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);

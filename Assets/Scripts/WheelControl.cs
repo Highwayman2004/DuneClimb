@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class WheelControl : MonoBehaviour
 {
-    [SerializeField] Transform wheelModel;
-
     [SerializeField] bool steerable;
     [SerializeField] bool motorized;
 
@@ -15,12 +13,5 @@ public class WheelControl : MonoBehaviour
     void Start()
     {
         WheelCollider = GetComponent<WheelCollider>();
-    }
-
-    void Update()
-    {
-        WheelCollider.GetWorldPose(out Vector3 position, out Quaternion rotation);
-        wheelModel.transform.position = position;
-        wheelModel.transform.rotation = rotation * Quaternion.Euler(90, 90, 0);
     }
 }
