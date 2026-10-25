@@ -3,6 +3,8 @@ using UnityEngine;
 
 public static class MeshGenerator
 {
+    public const int numSupportedLODs = 5;
+
     public static MeshData GenerateTerrainMesh(float[,] heightMap, 
         float heightMultiplier, AnimationCurve _heightCurve, int levelOfDetail)
     {

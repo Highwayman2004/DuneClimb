@@ -11,6 +11,13 @@ public class NoiseData : UpdatableData
     public int seed;
     public Vector2 offset;
 
+    public void LaunchWithRandomData()
+    {
+        noiseScale = Random.Range(60f, 100f);
+        seed = Random.Range(1, 100);
+    }
+
+#if UNITY_EDITOR
 
     protected override void OnValidate()
     {
@@ -25,4 +32,5 @@ public class NoiseData : UpdatableData
 
         base.OnValidate();
     }
+#endif
 }
