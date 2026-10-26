@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class Loot : MonoBehaviour
 {
-    void Awake()
+    void Start()
     {
         LootManager.Instance.RegisterLoot(this);
     }
