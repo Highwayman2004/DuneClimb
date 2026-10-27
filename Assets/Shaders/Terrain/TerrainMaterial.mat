@@ -69,6 +69,7 @@ Material:
     - _SandHeight: 1
     - _TilingScale: 0.2
     - _WaterHeight: 0
+    - _XRMotionVectorsPass: 1
     - _maxHeight: 0
     - _minHeight: 0
     m_Colors:
