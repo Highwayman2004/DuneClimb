@@ -8,15 +8,19 @@ public static class MeshGenerator
     public static MeshData GenerateTerrainMesh(float[,] heightMap, 
         float heightMultiplier, AnimationCurve _heightCurve, int levelOfDetail)
     {
-        int meshSimplificationIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail = 2;
+        //int meshSimplificationIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail = 2;
+        int meshSimplificationIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail * 2;
 
         AnimationCurve heightCurve = new AnimationCurve(_heightCurve.keys);
         int borderedSize = heightMap.GetLength(0);
         int meshSize = borderedSize - 2 * meshSimplificationIncrement;
         int meshSizeUnsimplified = borderedSize - 2;
 
-        float topLeftX = (meshSize - 1) / -2f;
-        float topLeftZ = (meshSize - 1) / 2f;
+        /*float topLeftX = (meshSize - 1) / -2f;
+        float topLeftZ = (meshSize - 1) / 2f;*/
+
+        float topLeftX = (meshSizeUnsimplified - 1) / -2f;
+        float topLeftZ = (meshSizeUnsimplified - 1) / 2f;
 
         
         int verticesPerLine = (meshSize - 1) / meshSimplificationIncrement + 1;
@@ -161,9 +165,13 @@ public class MeshData
         for (int i = 0; i < borderTriangleCount; i++)
         {
             int normalTriangleIndex = i * 3;
-            int vertexIndexA = triangles[normalTriangleIndex];
+            /*int vertexIndexA = triangles[normalTriangleIndex];
             int vertexIndexB = triangles[normalTriangleIndex + 1];
-            int vertexIndexC = triangles[normalTriangleIndex + 2];
+            int vertexIndexC = triangles[normalTriangleIndex + 2];*/
+
+            int vertexIndexA = borderTriangles[normalTriangleIndex];
+            int vertexIndexB = borderTriangles[normalTriangleIndex + 1];
+            int vertexIndexC = borderTriangles[normalTriangleIndex + 2];
 
             Vector3 triangleNormal = SurfaceNormalFromIndecies(vertexIndexA,
                 vertexIndexB, vertexIndexC);
@@ -192,9 +200,9 @@ public class MeshData
 
     Vector3 SurfaceNormalFromIndecies(int indexA, int  indexB, int indexC)
     {
-        Vector3 pointA = (indexA <0) ? borderVertices[-indexA] : vertices[indexA];
-        Vector3 pointB = (indexB < 0) ? borderVertices[-indexB] : vertices[indexB];
-        Vector3 pointC = (indexC < 0) ? borderVertices[-indexC] : vertices[indexC];
+        Vector3 pointA = (indexA < 0) ? borderVertices[-indexA -1] : vertices[indexA];
+        Vector3 pointB = (indexB < 0) ? borderVertices[-indexB -1] : vertices[indexB];
+        Vector3 pointC = (indexC < 0) ? borderVertices[-indexC -1] : vertices[indexC];
 
         Vector3 ab = pointB - pointA;
         Vector3 ac = pointC - pointA;

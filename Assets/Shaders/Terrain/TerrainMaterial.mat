@@ -37,6 +37,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _RockTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SandTexture:
         m_Texture: {fileID: 2800000, guid: 8cc0f6cb6a30b26479a11620e97610d1, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -61,7 +65,9 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _RockHeight: 0.6
     - _SandHeight: 1
+    - _TilingScale: 0.2
     - _WaterHeight: 0
     - _maxHeight: 0
     - _minHeight: 0

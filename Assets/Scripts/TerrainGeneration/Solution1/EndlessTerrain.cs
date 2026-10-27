@@ -70,7 +70,7 @@ public class EndlessTerrain : MonoBehaviour
             alreadyUpdatedChunkCoords.Add(visibleTerrainChunks[i].coord);
             visibleTerrainChunks[i].UpdateTerrainChunk();
         }
-        visibleTerrainChunks.Clear();
+        //visibleTerrainChunks.Clear();
 
         int currentChunkCoordX = Mathf.RoundToInt(viewerPosition.x / chunkSize);
         int currentChunkCoordY = Mathf.RoundToInt(viewerPosition.y / chunkSize);
@@ -81,10 +81,9 @@ public class EndlessTerrain : MonoBehaviour
             for (int xOffset = -chunksVisibleInViewDistance;
             xOffset <= chunksVisibleInViewDistance; xOffset++)
             {
-                Vector2 viewedChunkCoord = new Vector2(currentChunkCoordX + xOffset,
-                    currentChunkCoordY + yOffset);
+                Vector2 viewedChunkCoord = new Vector2(currentChunkCoordX + xOffset, currentChunkCoordY + yOffset);
 
-                if(!alreadyUpdatedChunkCoords.Contains(viewedChunkCoord))
+                /*if(!alreadyUpdatedChunkCoords.Contains(viewedChunkCoord))
                 {
                     if (terrainChunkDictionary.ContainsKey(viewedChunkCoord))
                     {
@@ -98,7 +97,13 @@ public class EndlessTerrain : MonoBehaviour
                     {
                         terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, detailLevels, colliderLODIndex, transform, material));
                     }
-                }
+                }*/
+                if (alreadyUpdatedChunkCoords.Contains(viewedChunkCoord)) continue;
+
+                if (terrainChunkDictionary.TryGetValue(viewedChunkCoord, out TerrainChunk chunk))
+                    chunk.UpdateTerrainChunk();
+                else
+                    terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, detailLevels, colliderLODIndex, transform, material));
             }
         }
     }
