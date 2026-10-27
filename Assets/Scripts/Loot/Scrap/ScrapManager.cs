@@ -13,7 +13,10 @@ public class ScrapManager : Singleton<ScrapManager>
     Coroutine incrementAnimation;
     int visualValue;
 
-
+    void Start()
+    {
+        UpdateScrapText();
+    }
 
     public void AddValue(int amount)
     {
@@ -34,7 +37,7 @@ public class ScrapManager : Singleton<ScrapManager>
         while(visualValue < totalValue)
         {
             visualValue++;
-            scrapText.text = visualValue.ToString();
+            UpdateScrapText();
 
             float speedMultiplier = 1 + (totalValue - visualValue) / 10;
 
@@ -42,5 +45,26 @@ public class ScrapManager : Singleton<ScrapManager>
         }
 
         incrementAnimation = null;
+    }
+
+    void UpdateScrapText()
+    {
+        if (visualValue <= 0)
+        {
+            scrapText.text = "00000";
+            return;
+        }
+
+        string text = "";
+
+        int left = 10000;
+
+        while (left > visualValue)
+        {
+            text += "0";
+            left /= 10;
+        }
+
+        scrapText.text = text + visualValue;
     }
 }

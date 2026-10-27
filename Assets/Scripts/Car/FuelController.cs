@@ -52,7 +52,6 @@ public class FuelController : Singleton<FuelController>
             fuelPercent
         );
 
-        Needle.localRotation = initialNeedleRotation
-            * Quaternion.AngleAxis(angle, Vector3.up);
+        Needle.localRotation = Quaternion.Euler(0, 0, angle);
     }
 }
