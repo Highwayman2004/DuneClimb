@@ -13,6 +13,9 @@ public class EndlessTerrain : MonoBehaviour
     public Transform viewer;
     public Material material;
 
+    public SpawningData spawningData;
+    public int spawningLODIndex = 1;
+
     public static Vector2 viewerPosition;
     Vector2 oldViewerPosition;
     static MapGenerator mapGenerator;
@@ -103,7 +106,7 @@ public class EndlessTerrain : MonoBehaviour
                 if (terrainChunkDictionary.TryGetValue(viewedChunkCoord, out TerrainChunk chunk))
                     chunk.UpdateTerrainChunk();
                 else
-                    terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, detailLevels, colliderLODIndex, transform, material));
+                    terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, detailLevels, colliderLODIndex, transform, material, spawningData, spawningLODIndex));
             }
         }
     }
@@ -128,12 +131,20 @@ public class EndlessTerrain : MonoBehaviour
         int prevLODIndex = -1;
         bool hasSetCollider;
 
+        SpawningData spawningData;
+        int spawningLODIndex;
+        List<SpawningPlacer.Placement> placements;
+        List<GameObject> landmarkObjs = new List<GameObject>();
+        List<GameObject> scatterObjs = new List<GameObject>();
+
         public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, int colliderLODIndex,
-            Transform parent, Material material)
+            Transform parent, Material material, SpawningData spawningData, int spawningLODIndex)
         {
             this.coord = coord;
             this.detailLevels = detailLevels;
             this.colliderLODIndex = colliderLODIndex;
+            this.spawningData = spawningData;
+            this.spawningLODIndex = spawningLODIndex;
             position = coord * size;
             bounds = new Bounds(position, Vector2.one * size);
             Vector3 positionV3 = new Vector3(position.x, 0, position.y);
@@ -167,6 +178,8 @@ public class EndlessTerrain : MonoBehaviour
         {
             this.mapData = mapData;
             mapDataReceived = true;
+
+            placements = SpawningPlacer.Generate(mapData, coord, mapGenerator.noiseData.seed, spawningData, mapGenerator.terrainData, MapGenerator.mapChunkSize - 1);
 
             UpdateTerrainChunk();
         }
@@ -214,8 +227,11 @@ public class EndlessTerrain : MonoBehaviour
                             lodMesh.RequestMesh(mapData);
                         }
                     }
+                    SetSpawned(true, lodIndex <= spawningLODIndex);
                 }
-                if(wasVisible != visible)
+                else SetSpawned(false, false);
+
+                if (wasVisible != visible)
                 {
                     if(visible)
                     {
@@ -255,6 +271,39 @@ public class EndlessTerrain : MonoBehaviour
                 }
             }
         }
+
+
+
+
+
+        void Sync(List<GameObject> list, bool want, bool ignoreLOD)
+        {
+            if (want && list.Count == 0)
+            {
+                foreach (var p in placements)
+                {
+                    if (p.ignoreLOD != ignoreLOD) continue;
+                    GameObject go = Object.Instantiate(p.prefab, meshObject.transform);
+                    go.transform.localPosition = p.localPosition;
+                    go.transform.localRotation = p.localRotation;
+                    go.transform.localScale = Vector3.one * p.scale;
+                    list.Add(go);
+                }
+            }
+            else if (!want && list.Count > 0)
+            {
+                foreach (var go in list) Object.Destroy(go);
+                list.Clear();
+            }
+        }
+
+        void SetSpawned(bool wantLandmarks, bool wantScatter)
+        {
+            if (placements == null) return;
+            Sync(landmarkObjs, wantLandmarks, true);
+            Sync(scatterObjs, wantScatter, false);
+        }
+
 
         public void SetVisible(bool visible)
         {
