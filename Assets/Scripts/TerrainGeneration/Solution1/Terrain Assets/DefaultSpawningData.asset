@@ -16,6 +16,8 @@ MonoBehaviour:
   - name: Cactus
     mode: 0
     prefabs:
+    - {fileID: 1675768379811236318, guid: 8f66a6074661d4740b4b81c5bf02be58, type: 3}
+    - {fileID: 1675768379811236318, guid: 39e6e58594d3d3f488ae9f6c216b5c06, type: 3}
     - {fileID: 1675768379811236318, guid: 0150b8683cc0ae947a1fa8b90341e16e, type: 3}
     scaleRange: {x: 0.8, y: 1.2}
     sinkAmount: 0.1
@@ -69,6 +71,7 @@ MonoBehaviour:
     mode: 1
     prefabs:
     - {fileID: 6825524949316282988, guid: 51cb609d5e3b86c4098ebf25b061d85f, type: 3}
+    - {fileID: 6825524949316282988, guid: 4dfe81742df1e724faaf8c0995cec864, type: 3}
     scaleRange: {x: 0.8, y: 1.2}
     sinkAmount: 2
     alignToSurface: 0
@@ -89,5 +92,32 @@ MonoBehaviour:
     footprintRadius: 10
     maxHeightDifference: 0.6
     searchAttempts: 70
+    pieces: []
+    pieceCount: 0
+  - name: Tree
+    mode: 0
+    prefabs:
+    - {fileID: 1675768379811236318, guid: f27bc35fe758afd428eade0e13904ca2, type: 3}
+    - {fileID: 1675768379811236318, guid: e50de0f5c92b92b4787340e784519541, type: 3}
+    scaleRange: {x: 0.8, y: 1.2}
+    sinkAmount: 0
+    alignToSurface: 0
+    attemptsPerChunk: 50
+    filterByActualHeight: 1
+    minNoiseHeight: 0
+    maxNoiseHeight: 100
+    minHeight: 5
+    maxHeight: 1000
+    minSlope: 0
+    maxSlope: 30
+    minSpacing: 3
+    useClusterNoise: 1
+    clusterScale: 120
+    clusterThreshold: 0.6
+    regionSizeInChunks: 0
+    spawnChance: 0
+    footprintRadius: 0
+    maxHeightDifference: 0
+    searchAttempts: 0
     pieces: []
     pieceCount: 0
