@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0d4e90d4b646c458a93a475b5f40b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FuelCan
-  refillAmount: 60
+  refillAmount: 50
   visuals: {fileID: 1924093449671363803}
   rotationSpeed: 1
 --- !u!1001 &2105848102575156016

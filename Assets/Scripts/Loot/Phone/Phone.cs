@@ -2,12 +2,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System.Collections;
+using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Phone : MonoBehaviour
 {
+    [SerializeField] XRSimpleInteractable interactable;
     [SerializeField] Transform car;
     [SerializeField] Transform marker;
+    [SerializeField] Transform sleepScreen;
     [SerializeField] TMP_Text distanceText;
+    [SerializeField] float sleepTime;
+
+    Coroutine sleepCoroutine;
+    bool useKeyboard = false;
+
+    void Start()
+    {
+        interactable.selectExited.AddListener(OnHandRelease);
+    }
 
     void Update()
     {
@@ -19,6 +34,14 @@ public class Phone : MonoBehaviour
             UpdateDirection(l);
             UpdateDistance(distance);
         }
+
+        if (useKeyboard && Keyboard.current.qKey.wasPressedThisFrame)
+            WakeUp();
+    }
+
+    public void SetForKeyboard()
+    {
+        useKeyboard = true;
     }
 
     (Loot, float) GetNearestLoot(List<Loot> loot)
@@ -55,5 +78,26 @@ public class Phone : MonoBehaviour
     void UpdateDistance(float distance)
     {
         distanceText.text = Mathf.RoundToInt(distance) + " m";
+    }
+
+    void OnHandRelease(SelectExitEventArgs args)
+    {
+        WakeUp();
+    }
+
+    void WakeUp()
+    {
+        if (sleepCoroutine != null)
+            return;
+
+        sleepScreen.gameObject.SetActive(false);
+        sleepCoroutine = StartCoroutine(WaitToSleep());
+    }
+
+    IEnumerator WaitToSleep()
+    {
+        yield return new WaitForSeconds(sleepTime);
+        sleepScreen.gameObject.SetActive(true);
+        sleepCoroutine = null;
     }
 }

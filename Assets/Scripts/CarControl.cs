@@ -8,6 +8,9 @@ public class CarControl : MonoBehaviour
     [SerializeField] SteeringWheel steeringWheel;
     [SerializeField] GearLever gearLever;
     [SerializeField] FuelController fuelController;
+    [SerializeField] Phone phone;
+    [SerializeField] Magnet magnet;
+    [Space]
     [SerializeField] float motorTorque = 2000f;
     [SerializeField] float brakeTorque = 2000f;
     [SerializeField] float maxSpeed = 20f;
@@ -33,6 +36,8 @@ public class CarControl : MonoBehaviour
         {
             steeringWheel.SetForKeyboard();
             gearLever.SetForKeyboard();
+            phone.SetForKeyboard();
+            magnet.SetForKeyboard();
         }
     }
 
