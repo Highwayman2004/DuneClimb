@@ -37,7 +37,7 @@ public class Magnet : MonoBehaviour
     void OnHandGripSecured(SelectEnterEventArgs args)
     {
         activeHandTrackerAnchor = args.interactorObject.transform;
-        handStartingPos = lever.parent.InverseTransformPoint(activeHandTrackerAnchor.position).y;
+        handStartingPos = -lever.parent.InverseTransformPoint(activeHandTrackerAnchor.position).y;
     }
 
     void OnHandRelease(SelectExitEventArgs args)
@@ -94,7 +94,7 @@ public class Magnet : MonoBehaviour
 
     void Activate()
     {
-        activated = true;
+        //activated = true;
 
         LootManager.Instance.CollectNearby(transform.position, collectDistance);
     }

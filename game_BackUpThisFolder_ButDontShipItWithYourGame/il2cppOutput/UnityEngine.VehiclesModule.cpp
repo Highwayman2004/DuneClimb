@@ -125,7 +125,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Collider__ctor_m8975C6CCFC0E5740C523DB4A
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 89621
+// Method Definition Index: 89649
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void EmbeddedAttribute__ctor_mDBE6287251893685DD223C2CB30EE3D9FEF81FC6 (EmbeddedAttribute_t8EC3D368E702A287AC770B103BF411C2D448E1E7* __this, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -142,7 +142,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void EmbeddedAttribute__ctor_mDBE628725189368
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 89622
+// Method Definition Index: 89650
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void RefSafetyRulesAttribute__ctor_m8ACE9CA62B01738689D4A54B77C57053B803D7D3 (RefSafetyRulesAttribute_t0078CC4F3C688D857BF97634C6A71F95FBC6AFE2* __this, int32_t ___0_p, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -161,7 +161,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void RefSafetyRulesAttribute__ctor_m8ACE9CA62
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 89623
+// Method Definition Index: 89651
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_motorTorque_m4958AAF7D867CF7570420F9BAFAF04DC904F02A8 (WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* __this, float ___0_value, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -192,7 +192,7 @@ IL_000f:
 		return;
 	}
 }
-// Method Definition Index: 89624
+// Method Definition Index: 89652
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_brakeTorque_mB9B216C57C275470907C7DB35185E2F192DC8DAB (WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* __this, float ___0_value, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -223,7 +223,7 @@ IL_000f:
 		return;
 	}
 }
-// Method Definition Index: 89625
+// Method Definition Index: 89653
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_steerAngle_m7BF83B27D8956355F873537939BE9F35CF3113C3 (WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* __this, float ___0_value, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -254,7 +254,7 @@ IL_000f:
 		return;
 	}
 }
-// Method Definition Index: 89626
+// Method Definition Index: 89654
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider__ctor_mD44B2C97960274797DABD055BBEB18E664DAD906 (WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* __this, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -263,7 +263,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider__ctor_mD44B2C97960274797DA
 		return;
 	}
 }
-// Method Definition Index: 89627
+// Method Definition Index: 89655
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_motorTorque_Injected_mDC3AFD111B0711D6D7450F3FDCC18386352888C2 (intptr_t ___0__unity_self, float ___1_value, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -273,7 +273,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_motorTorque_Injected_m
 	_il2cpp_icall_func = (WheelCollider_set_motorTorque_Injected_mDC3AFD111B0711D6D7450F3FDCC18386352888C2_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.WheelCollider::set_motorTorque_Injected(System.IntPtr,System.Single)");
 	_il2cpp_icall_func(___0__unity_self, ___1_value);
 }
-// Method Definition Index: 89628
+// Method Definition Index: 89656
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_brakeTorque_Injected_mF745FF43BCCE204923ABCF9FD3F0725BFB6927E2 (intptr_t ___0__unity_self, float ___1_value, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -283,7 +283,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_brakeTorque_Injected_m
 	_il2cpp_icall_func = (WheelCollider_set_brakeTorque_Injected_mF745FF43BCCE204923ABCF9FD3F0725BFB6927E2_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.WheelCollider::set_brakeTorque_Injected(System.IntPtr,System.Single)");
 	_il2cpp_icall_func(___0__unity_self, ___1_value);
 }
-// Method Definition Index: 89629
+// Method Definition Index: 89657
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_steerAngle_Injected_m1D19C28872BFFC9C692FA4F50454A3400D5ACC20 (intptr_t ___0__unity_self, float ___1_value, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
@@ -296,7 +296,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WheelCollider_set_steerAngle_Injected_m1
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-// Method Definition Index: 44006
+// Method Definition Index: 44007
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR intptr_t MarshalledUnityObject_MarshalNotNull_TisIl2CppSharedGenericObject_mCE897EC9A79983B4B1E6E2C8342452256309044A_gshared_inline (Il2CppSharedGenericObject* ___0_obj, const RuntimeMethod* method) 
 {
 	//<source_info:<no-source>:1>
