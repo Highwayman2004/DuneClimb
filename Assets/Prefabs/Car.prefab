@@ -216,7 +216,7 @@ MonoBehaviour:
   marker: {fileID: 6006147409506541013}
   sleepScreen: {fileID: 3339386620548503837}
   distanceText: {fileID: 5377073673335555481}
-  sleepTime: 6
+  sleepTime: 20
 --- !u!1 &310522085402839143
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,7 +578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3339386620548503837
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2304,7 +2304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47459dfc8119ec7429b13a85f9d9cc2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FuelController
-  maxFuel: 7500
+  maxFuel: 1000
   minFuelUse: 1
   maxFuelUse: 5
   maxUseSpeed: 30
@@ -4662,7 +4662,7 @@ MonoBehaviour:
   steeringRange: 25
   steeringRangeAtMaxSpeed: 10
   centreOfGravityOffset: -2
-  useKeyboard: 1
+  useKeyboard: 0
 --- !u!1 &8702266956306522928
 GameObject:
   m_ObjectHideFlags: 0
