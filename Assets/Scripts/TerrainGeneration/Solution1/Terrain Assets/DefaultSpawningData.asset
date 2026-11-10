@@ -18,7 +18,7 @@ MonoBehaviour:
     prefabs:
     - {fileID: 1675768379811236318, guid: 0150b8683cc0ae947a1fa8b90341e16e, type: 3}
     scaleRange: {x: 0.8, y: 1.2}
-    sinkAmount: -0.5
+    sinkAmount: 0.1
     alignToSurface: 0
     attemptsPerChunk: 75
     filterByActualHeight: 1
@@ -39,12 +39,38 @@ MonoBehaviour:
     searchAttempts: 0
     pieces: []
     pieceCount: 0
+  - name: Rock
+    mode: 0
+    prefabs:
+    - {fileID: 7659153548795144554, guid: a1909ae839ee56941bed0ec20fac95a7, type: 3}
+    scaleRange: {x: 0.8, y: 1.2}
+    sinkAmount: 0
+    alignToSurface: 0
+    attemptsPerChunk: 30
+    filterByActualHeight: 1
+    minNoiseHeight: 0
+    maxNoiseHeight: 50
+    minHeight: 0
+    maxHeight: 100
+    minSlope: 0
+    maxSlope: 23
+    minSpacing: 50
+    useClusterNoise: 0
+    clusterScale: 0
+    clusterThreshold: 0
+    regionSizeInChunks: 1
+    spawnChance: 0
+    footprintRadius: 0
+    maxHeightDifference: 0
+    searchAttempts: 0
+    pieces: []
+    pieceCount: 0
   - name: Pyramid
     mode: 1
     prefabs:
     - {fileID: 6825524949316282988, guid: 51cb609d5e3b86c4098ebf25b061d85f, type: 3}
     scaleRange: {x: 0.8, y: 1.2}
-    sinkAmount: -0.5
+    sinkAmount: 2
     alignToSurface: 0
     attemptsPerChunk: 0
     filterByActualHeight: 0
