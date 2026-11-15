@@ -22,6 +22,7 @@ MonoBehaviour:
     scaleRange: {x: 0.8, y: 1.2}
     sinkAmount: 0.1
     alignToSurface: 0
+    collisionRadius: 1.5
     attemptsPerChunk: 75
     filterByActualHeight: 1
     minNoiseHeight: 0
@@ -48,6 +49,7 @@ MonoBehaviour:
     scaleRange: {x: 0.8, y: 1.2}
     sinkAmount: 0
     alignToSurface: 0
+    collisionRadius: 1.5
     attemptsPerChunk: 30
     filterByActualHeight: 1
     minNoiseHeight: 0
@@ -75,6 +77,7 @@ MonoBehaviour:
     scaleRange: {x: 0.8, y: 1.2}
     sinkAmount: 2
     alignToSurface: 0
+    collisionRadius: 1.5
     attemptsPerChunk: 0
     filterByActualHeight: 0
     minNoiseHeight: 0
@@ -102,6 +105,7 @@ MonoBehaviour:
     scaleRange: {x: 0.8, y: 1.2}
     sinkAmount: 0
     alignToSurface: 0
+    collisionRadius: 1.5
     attemptsPerChunk: 50
     filterByActualHeight: 1
     minNoiseHeight: 0
@@ -121,3 +125,4 @@ MonoBehaviour:
     searchAttempts: 0
     pieces: []
     pieceCount: 0
+  lootData: {fileID: 11400000, guid: b558868a344c2774cac1978ef6e6a366, type: 2}

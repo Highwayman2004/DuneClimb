@@ -6,6 +6,7 @@ public enum SpawnMode { Scatter, Landmark }
 public class SpawningData : ScriptableObject
 {
     public SpawningRule[] rules;
+    public LootData lootData;
 }
 
 [System.Serializable]
@@ -19,6 +20,7 @@ public class SpawningRule
     public Vector2 scaleRange = new Vector2(0.8f, 1.2f);
     public float sinkAmount = 0.1f;
     public bool alignToSurface;
+    public float collisionRadius = 1.5f;
 
     [Header("Scatter")]
     public int attemptsPerChunk = 60;

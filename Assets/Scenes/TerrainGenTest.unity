@@ -433,6 +433,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 365376850012099712, guid: f72d858d6968f604eb3be996fc7f16d1, type: 3}
+      propertyPath: useKeyboard
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2011908202453670415, guid: f72d858d6968f604eb3be996fc7f16d1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -102.32034
@@ -473,6 +477,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6769938817209183070, guid: f72d858d6968f604eb3be996fc7f16d1, type: 3}
+      propertyPath: noiseData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e5434459a8a3f4409ebd10ecdd17e60, type: 2}
+    - target: {fileID: 6769938817209183070, guid: f72d858d6968f604eb3be996fc7f16d1, type: 3}
+      propertyPath: terrainData
+      value: 
+      objectReference: {fileID: 11400000, guid: d9b04ff6a01311d4c8928b29e01e9a2b, type: 2}
+    - target: {fileID: 6769938817209183070, guid: f72d858d6968f604eb3be996fc7f16d1, type: 3}
+      propertyPath: spawningData
+      value: 
+      objectReference: {fileID: 11400000, guid: 53627b8c422a3c148bb0f48cf47b1bf9, type: 2}
     - target: {fileID: 8212236476946139801, guid: f72d858d6968f604eb3be996fc7f16d1, type: 3}
       propertyPath: m_AngularDamping
       value: 1
@@ -580,7 +596,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1380459886
+--- !u!43 &1527499234
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -892,7 +908,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1777427968}
-  m_Mesh: {fileID: 1380459886}
+  m_Mesh: {fileID: 1527499234}
 --- !u!4 &1777427971
 Transform:
   m_ObjectHideFlags: 0
@@ -1177,6 +1193,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: f9ce548b98a2e7d4ca6eb99ffab14fbc, type: 2}
   spawningData: {fileID: 11400000, guid: 53627b8c422a3c148bb0f48cf47b1bf9, type: 2}
   spawningLODIndex: 1
+  lootSpawnDistance: 150
+  lootDespawnDistance: 200
 --- !u!114 &2058807839
 MonoBehaviour:
   m_ObjectHideFlags: 0

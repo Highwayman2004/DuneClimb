@@ -16,6 +16,10 @@ public class Phone : MonoBehaviour
     [SerializeField] TMP_Text distanceText;
     [SerializeField] float sleepTime;
 
+    [SerializeField] SpawningData spawningData; 
+    [SerializeField] NoiseData noiseData; 
+    [SerializeField] TerrainData terrainData;
+
     Coroutine sleepCoroutine;
     bool useKeyboard = false;
 
@@ -28,11 +32,19 @@ public class Phone : MonoBehaviour
     {
         List<Loot> loot = LootManager.Instance.GetLoot(l => l is FuelCan);
         (Loot l, float distance) = GetNearestLoot(loot);
+        Vector2 carXZ = new(car.position.x, car.position.z);
 
-        if(l != null)
+        if (l != null)
         {
-            UpdateDirection(l);
+            //UpdateDirection(l);
+            UpdateDirection(l.transform.position);
             UpdateDistance(distance);
+        }
+        else if (LootRoute.TryGetNearestFuelNode(carXZ, noiseData.seed, spawningData.lootData,
+             MapGenerator.mapChunkSize - 1, terrainData.uniformScale, out Vector2 target))
+        {
+            UpdateDirection(new Vector3(target.x, 0, target.y));
+            UpdateDistance(Vector2.Distance(carXZ, target));
         }
 
         if (useKeyboard && Keyboard.current.qKey.wasPressedThisFrame)
@@ -66,12 +78,20 @@ public class Phone : MonoBehaviour
         return (nearestLoot, distance);
     }
 
-    void UpdateDirection(Loot loot)
+    /*void UpdateDirection(Loot loot)
     {
         Vector3 carDir = Vector3.ProjectOnPlane(car.forward, Vector3.up).normalized;
         Vector3 lootDir = Vector3.ProjectOnPlane((loot.transform.position - car.position), Vector3.up).normalized;
 
         float angle = Vector3.SignedAngle(carDir, lootDir, Vector3.up);
+        marker.localRotation = Quaternion.Euler(0f, 0f, -angle);
+    }*/
+
+    void UpdateDirection(Vector3 targetPos)
+    {
+        Vector3 carDir = Vector3.ProjectOnPlane(car.forward, Vector3.up).normalized;
+        Vector3 dir = Vector3.ProjectOnPlane(targetPos - car.position, Vector3.up).normalized;
+        float angle = Vector3.SignedAngle(carDir, dir, Vector3.up);
         marker.localRotation = Quaternion.Euler(0f, 0f, -angle);
     }
 

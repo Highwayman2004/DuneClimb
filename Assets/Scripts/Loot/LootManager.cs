@@ -6,6 +6,7 @@ using UnityEngine;
 public class LootManager : Singleton<LootManager>
 {
     List<Loot> activeLoot = new();
+    HashSet<int> collectedIds = new();
 
     public event Action<Loot> OnLootSpawn;
     public event Action<Loot> OnLootRemove;
@@ -22,6 +23,8 @@ public class LootManager : Singleton<LootManager>
         }
     }
 
+    public bool IsCollected(int id) => collectedIds.Contains(id);
+
     public List<Loot> GetLoot(Predicate<Loot> filter)
     {
         return activeLoot.Where(l => filter(l)).ToList();
@@ -33,10 +36,17 @@ public class LootManager : Singleton<LootManager>
         OnLootSpawn?.Invoke(loot);
     }
 
+
+    public void UnregisterLoot(Loot loot)
+    {
+        if (activeLoot.Remove(loot)) OnLootRemove?.Invoke(loot);
+    }
+
     public void CollectScrap(Loot loot)
     {
         activeLoot.Remove(loot);
         loot.gameObject.SetActive(false);
+        if (loot.spawnId != 0) collectedIds.Add(loot.spawnId);
         loot.Collect();
         OnLootRemove?.Invoke(loot);
     }

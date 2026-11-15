@@ -22,6 +22,11 @@ public class EndlessTerrain : MonoBehaviour
     int chunkSize;
     int chunksVisibleInViewDistance;
 
+    [Header("Loot")]
+    public float lootSpawnDistance = 150f;
+    public float lootDespawnDistance = 200f;
+    static float lootSpawnDist, lootDespawnDist, sqrLootSpawnDist;
+
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = 
         new Dictionary<Vector2, TerrainChunk>();
@@ -33,6 +38,11 @@ public class EndlessTerrain : MonoBehaviour
         visibleTerrainChunks.Clear();
         mapGenerator = FindAnyObjectByType<MapGenerator>();
         maxViewDist = detailLevels[detailLevels.Length - 1].visibleDistanceThreshold;
+        float s = mapGenerator.terrainData.uniformScale;
+        lootSpawnDist = Mathf.Min(lootSpawnDistance / s, maxViewDist);
+        lootDespawnDist = Mathf.Min(lootDespawnDistance, lootDespawnDistance + 10f);
+        //sqrLootSpawnDist = lootSpawnDist * lootDespawnDist;
+        sqrLootSpawnDist = Mathf.Pow(lootSpawnDist, lootSpawnDist);
         chunkSize = MapGenerator.mapChunkSize - 1;
         chunksVisibleInViewDistance = Mathf.RoundToInt(maxViewDist / chunkSize);
 
@@ -48,6 +58,7 @@ public class EndlessTerrain : MonoBehaviour
             foreach(TerrainChunk chunk in visibleTerrainChunks)
             {
                 chunk.UpdateCollisionMesh();
+                chunk.UpdateLoot(true);
             }
         }
 
@@ -134,8 +145,11 @@ public class EndlessTerrain : MonoBehaviour
         SpawningData spawningData;
         int spawningLODIndex;
         List<SpawningPlacer.Placement> placements;
-        List<GameObject> landmarkObjs = new List<GameObject>();
-        List<GameObject> scatterObjs = new List<GameObject>();
+        List<GameObject>[] spawned = { new List<GameObject>(), new List<GameObject>(), new List<GameObject>() };
+        bool[] isSpawned = new bool[3];
+        List<int> lootPlacementIndices;
+        GameObject[] lootObjs;
+        int lootSpawnedCount;
 
         public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, int colliderLODIndex,
             Transform parent, Material material, SpawningData spawningData, int spawningLODIndex)
@@ -180,6 +194,12 @@ public class EndlessTerrain : MonoBehaviour
             mapDataReceived = true;
 
             placements = SpawningPlacer.Generate(mapData, coord, mapGenerator.noiseData.seed, spawningData, mapGenerator.terrainData, MapGenerator.mapChunkSize - 1);
+            lootPlacementIndices = new List<int> ();
+            for(int i = 0; i < placements.Count; i++)
+            {
+                if (placements[i].category == SpawnCategory.Loot) lootPlacementIndices.Add(i);
+            }
+            lootObjs = new GameObject[lootPlacementIndices.Count];
 
             UpdateTerrainChunk();
         }
@@ -273,10 +293,7 @@ public class EndlessTerrain : MonoBehaviour
         }
 
 
-
-
-
-        void Sync(List<GameObject> list, bool want, bool ignoreLOD)
+        /*void Sync(List<GameObject> list, bool want, bool ignoreLOD)
         {
             if (want && list.Count == 0)
             {
@@ -295,15 +312,93 @@ public class EndlessTerrain : MonoBehaviour
                 foreach (var go in list) Object.Destroy(go);
                 list.Clear();
             }
+        }*/
+
+        void Sync(SpawnCategory category, bool want)
+        {
+            int i = (int)category;
+            if (want == isSpawned[i]) return;
+            isSpawned[i] = want;
+
+            if (want)
+            {
+                foreach (var p in placements)
+                {
+                    if (p.category != category) continue;
+                    /*if (category == SpawnCategory.Loot && LootManager.Instance != null
+                        && LootManager.Instance.IsCollected(p.lootId)) continue;*/
+
+                    GameObject go = Object.Instantiate(p.prefab, meshObject.transform);
+                    go.transform.localPosition = p.localPosition;
+                    go.transform.localRotation = p.localRotation;
+                    go.transform.localScale = Vector3.one * p.scale;
+                    //if (category == SpawnCategory.Loot && go.TryGetComponent(out Loot l)) l.spawnId = p.lootId;
+                    spawned[i].Add(go);
+                }
+            }
+            else
+            {
+                foreach (var go in spawned[i]) Object.Destroy(go);
+                spawned[i].Clear();
+            }
         }
 
-        void SetSpawned(bool wantLandmarks, bool wantScatter)
+        /*void SetSpawned(bool wantLandmarks, bool wantScatter)
         {
             if (placements == null) return;
             Sync(landmarkObjs, wantLandmarks, true);
             Sync(scatterObjs, wantScatter, false);
+        }*/
+
+        void SetSpawned(bool visible, bool wantScatter)
+        {
+            if (placements == null) return;
+            Sync(SpawnCategory.Landmark, visible);
+            //Sync(SpawnCategory.Loot, wantLandmarksAndLoot);
+            Sync(SpawnCategory.Scatter, wantScatter);
+            UpdateLoot(visible);
         }
 
+        public void UpdateLoot(bool visible)
+        {
+            if (lootObjs == null || lootObjs.Length == 0) return;
+
+            if (visible && lootSpawnedCount == 0 && bounds.SqrDistance(viewerPosition) > sqrLootSpawnDist)
+                return;
+
+            for (int n = 0; n < lootObjs.Length; n++)
+            {
+                var p = placements[lootPlacementIndices[n]];
+                bool isUp = lootObjs[n] != null;
+
+                bool want = false;
+                if (visible)
+                {
+                    Vector2 worldPos = position + new Vector2(p.localPosition.x, p.localPosition.z);
+                    float d = Vector2.Distance(viewerPosition, worldPos);
+                    want = d <= (isUp ? lootDespawnDist : lootSpawnDist);
+                }
+
+                if (want && !isUp)
+                {
+                    if (LootManager.Instance != null && LootManager.Instance.IsCollected(p.lootId)) continue;
+
+                    GameObject go = Object.Instantiate(p.prefab, meshObject.transform);
+                    go.transform.localPosition = p.localPosition;
+                    go.transform.localRotation = p.localRotation;
+                    go.transform.localScale = Vector3.one * p.scale;
+                    if (go.TryGetComponent(out Loot loot)) loot.spawnId = p.lootId;
+                    lootObjs[n] = go;
+                    lootSpawnedCount++;
+                }
+                else if (!want && isUp)
+                {
+                    Object.Destroy(lootObjs[n]);
+                    lootObjs[n] = null;
+                    lootSpawnedCount--;
+                }
+            }
+        }
 
         public void SetVisible(bool visible)
         {
