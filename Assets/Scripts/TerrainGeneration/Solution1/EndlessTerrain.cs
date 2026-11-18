@@ -361,9 +361,16 @@ public class EndlessTerrain : MonoBehaviour
 
         public void UpdateLoot(bool visible)
         {
-            if (lootObjs == null || lootObjs.Length == 0) return;
+            /*if (lootObjs == null || lootObjs.Length == 0) return;
 
             if (visible && lootSpawnedCount == 0 && bounds.SqrDistance(viewerPosition) > sqrLootSpawnDist)
+                return;*/
+
+            if (lootObjs == null || lootObjs.Length == 0) return;
+
+            bool canHaveLoot = visible && prevLODIndex >= 0 && detailLevels[prevLODIndex].lod == 0;
+
+            if (lootSpawnedCount == 0 && (!canHaveLoot || bounds.SqrDistance(viewerPosition) > sqrLootSpawnDist))
                 return;
 
             for (int n = 0; n < lootObjs.Length; n++)
@@ -372,7 +379,14 @@ public class EndlessTerrain : MonoBehaviour
                 bool isUp = lootObjs[n] != null;
 
                 bool want = false;
-                if (visible)
+                /*if (visible)
+                {
+                    Vector2 worldPos = position + new Vector2(p.localPosition.x, p.localPosition.z);
+                    float d = Vector2.Distance(viewerPosition, worldPos);
+                    want = d <= (isUp ? lootDespawnDist : lootSpawnDist);
+                }*/
+
+                if (canHaveLoot)
                 {
                     Vector2 worldPos = position + new Vector2(p.localPosition.x, p.localPosition.z);
                     float d = Vector2.Distance(viewerPosition, worldPos);

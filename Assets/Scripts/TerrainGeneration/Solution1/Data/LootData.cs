@@ -20,9 +20,14 @@ public class LootData : ScriptableObject
     public float sideJitter = 4f;
     [Range(0, 1)] public float alongJitter = 0.3f;
 
+    [Header("Fuel placement")]
+    [Min(0)] public float cellGrowth = 0.5f;
+    public float maxCellSizeInChunks = 6f;
 
     [Header("Placement")]
     public float lootRadius = 1.5f;
     public float maxSlope = 35f;
     public float heightOffset = 0.5f;
+    public float scrapHeightOffset = 0.1f;
+    public float fuelHeightOffset = 0.3f;
 }

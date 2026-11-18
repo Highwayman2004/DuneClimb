@@ -336,7 +336,8 @@ public static class SpawningPlacer
                         result.Add(new Placement
                         {
                             prefab = pool[pt.variant % pool.Length],
-                            localPosition = new Vector3(xz.x, H(x, y) + loot.heightOffset, xz.y),
+                            //localPosition = new Vector3(xz.x, H(x, y) + loot.heightOffset, xz.y),
+                            localPosition = new Vector3(xz.x, SurfaceHeight(xz.x, xz.y) + (pt.isFuel ? loot.fuelHeightOffset : loot.scrapHeightOffset), xz.y),
                             localRotation = Quaternion.Euler(0, pt.yaw, 0),
                             scale = lootScale,
                             category = SpawnCategory.Loot,
@@ -346,6 +347,22 @@ public static class SpawningPlacer
                     }
                 }
             }
+        }
+
+
+        float SurfaceHeight(float lx, float lz)
+        {
+            float sx = Mathf.Clamp(lx + half, 1f, size - 2f);
+            float sy = Mathf.Clamp(half - lz, 1f, size - 2f);
+            int ix = Mathf.Min((int)sx, size - 3);
+            int iy = Mathf.Min((int)sy, size - 3);
+            float fx = sx - ix, fy = sy - iy;
+
+            float ha = H(ix, iy);
+            float hd = H(ix + 1, iy + 1);
+            return fy >= fx
+                ? ha + (fy - fx) * (H(ix, iy + 1) - ha) + fx * (hd - ha)
+                : ha + (fx - fy) * (H(ix + 1, iy) - ha) + fy * (hd - ha);
         }
     }
 }
