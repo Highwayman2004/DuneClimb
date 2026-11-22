@@ -1,15 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class LootManager : Singleton<LootManager>
 {
+    [SerializeField] Transform collectPosition;
+    [SerializeField] Transform pickupPosition;
+
     List<Loot> activeLoot = new();
     HashSet<int> collectedIds = new();
 
     public event Action<Loot> OnLootSpawn;
     public event Action<Loot> OnLootRemove;
+
+    public Vector3 CollectPosition => collectPosition.position;
+    public Vector3 PickupPosition => pickupPosition.position;
 
     public void CollectNearby(Vector3 position, float radius)
     {
@@ -45,9 +52,13 @@ public class LootManager : Singleton<LootManager>
     public void CollectScrap(Loot loot)
     {
         activeLoot.Remove(loot);
+        loot.Collect();
+    }
+
+    public void Release(Loot loot)
+    {
         loot.gameObject.SetActive(false);
         if (loot.spawnId != 0) collectedIds.Add(loot.spawnId);
-        loot.Collect();
         OnLootRemove?.Invoke(loot);
     }
 }

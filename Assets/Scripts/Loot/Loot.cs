@@ -1,8 +1,12 @@
+using System;
 using UnityEngine;
 
 public abstract class Loot : MonoBehaviour
 {
+    [SerializeField] BoxCollider collider;
     [HideInInspector] public int spawnId;
+
+    public event Action<Loot> OnLootRelease;
 
     private void Awake()
     {
@@ -23,5 +27,18 @@ public abstract class Loot : MonoBehaviour
         if (LootManager.Instance != null) LootManager.Instance.UnregisterLoot(this);
     }
 
-    public abstract void Collect();
+    public virtual void Set()
+    {
+        collider.enabled = true;
+    }
+
+    public virtual void Collect()
+    {
+        collider.enabled = false;
+    }
+
+    protected void Release()
+    {
+        LootManager.Instance.Release(this);
+    }
 }
