@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8899577720938698384}
+  - component: {fileID: 4229466975197699187}
   - component: {fileID: 4073305624074625696}
   m_Layer: 0
   m_Name: Managers
@@ -32,6 +33,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4229466975197699187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200978928417161151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 862b8953ae3683849bdeeaada05f3371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ravernt.Audio.AudioManager
+  soundEffects: []
+  setGroup: {fileID: 0}
+  audioSourcePrefab: {fileID: 3679563826965229630, guid: 3ddeab75df1813144b67ee86a24e60bb, type: 3}
 --- !u!114 &4073305624074625696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,3 +60,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ff8e5d7a437e0940b3910aa3b272cd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootManager
+  collectPosition: {fileID: 0}
+  pickupPosition: {fileID: 0}

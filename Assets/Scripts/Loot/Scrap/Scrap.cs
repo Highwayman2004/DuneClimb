@@ -94,6 +94,5 @@ public class Scrap : Loot
         float pos = Mathf.InverseLerp(0.15f, 3.5f, Vector3.Distance(transform.position, position));
         float scale = Mathf.Lerp(0.25f, 1.15f, pos);
         holder.localScale = new(scale, scale, scale);
-        Debug.Log(scale);
     }
 }
