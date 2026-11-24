@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ScrapManager : Singleton<ScrapManager>
 {
+    [SerializeField] Transform scrapHolder;
     [SerializeField] TMP_Text scrapText;
     [SerializeField] float scrapIncrementSpeed;
 
@@ -12,6 +13,8 @@ public class ScrapManager : Singleton<ScrapManager>
 
     Coroutine incrementAnimation;
     int visualValue;
+
+    public Transform ScrapHolder => scrapHolder;
 
     void Start()
     {

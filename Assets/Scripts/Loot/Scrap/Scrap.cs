@@ -22,6 +22,8 @@ public class Scrap : Loot
         base.Set();
         holder.localScale = new(1f, 1f, 1f);
         collected = false;
+
+        transform.SetParent(null);
     }
 
     public override void Collect()
@@ -31,6 +33,8 @@ public class Scrap : Loot
 
         base.Collect();
         collected = true;
+        transform.SetParent(ScrapManager.Instance.ScrapHolder);
+
         ScrapManager.Instance.AddValue(value);
         StartCoroutine(PlayCollectionAnimation());
         StartCoroutine(PlayRotationAnimation());
@@ -62,7 +66,7 @@ public class Scrap : Loot
 
         speedMult = 1 + (speedMult - 1) * 0.5f;
 
-        while (Vector3.Distance(transform.position, LootManager.Instance.PickupPosition) > 0.1f)
+        while (Vector3.Distance(transform.position, LootManager.Instance.PickupPosition) > 0.25f)
         {
             speedMult += speedIncrease * Time.deltaTime;
 
@@ -85,10 +89,11 @@ public class Scrap : Loot
         }
     }
 
-    void SetScale(Vector2 position)
+    void SetScale(Vector3 position)
     {
-        float pos = Mathf.InverseLerp(0.4f, 6f, Vector3.Distance(transform.position, position));
+        float pos = Mathf.InverseLerp(0.15f, 3.5f, Vector3.Distance(transform.position, position));
         float scale = Mathf.Lerp(0.25f, 1.15f, pos);
         holder.localScale = new(scale, scale, scale);
+        Debug.Log(scale);
     }
 }

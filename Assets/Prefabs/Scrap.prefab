@@ -113,8 +113,8 @@ MonoBehaviour:
   flyUpTime: 0.75
   flyUpSpeed: 8
   collectSpeed: 55
-  pickupSpeed: 30
-  speedIncrease: 6
+  pickupSpeed: 20
+  speedIncrease: 0.5
   rotationSpeed: 180
 --- !u!65 &2185069061716888063
 BoxCollider:
@@ -147,15 +147,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2a22d91726602c34a962b28dca8b626a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2970286
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a22d91726602c34a962b28dca8b626a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2970286
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a22d91726602c34a962b28dca8b626a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2970286
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a22d91726602c34a962b28dca8b626a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -196,6 +196,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 2a22d91726602c34a962b28dca8b626a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2a22d91726602c34a962b28dca8b626a, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2a22d91726602c34a962b28dca8b626a, type: 3}
       propertyPath: m_Name
