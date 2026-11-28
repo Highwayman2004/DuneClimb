@@ -133,9 +133,59 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapData(Vector2 centre)
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.persistance, noiseData.lacunarity, centre + noiseData.offset, noiseData.normalizeMode);
+        /*float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.persistance, noiseData.lacunarity, centre + noiseData.offset, noiseData.normalizeMode);
 
+        return new MapData(noiseMap);*/
+
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.seed,
+        noiseData.noiseScale, noiseData.octaves, noiseData.persistance, noiseData.lacunarity,
+        centre + noiseData.offset, noiseData.normalizeMode);
+
+        ApplyStartArea(noiseMap, centre);
         return new MapData(noiseMap);
+    }
+
+
+    float SampleStartNoise() => Noise.SampleGlobal(terrainData.startPosition.x, terrainData.startPosition.y, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.persistance, 
+        noiseData.lacunarity, noiseData.offset);
+
+
+    void ApplyStartArea(float[,] map, Vector2 centre)
+    {
+        if (noiseData.normalizeMode != Noise.NormalizeMode.Global) return;
+
+        float outer = terrainData.startFlatRadius + terrainData.startBlendWidth;
+        int size = map.GetLength(0);
+        int half = (size - 1) / 2;
+        Vector2 start = terrainData.startPosition;
+
+        float reach = half + 1 + outer;
+        if (Mathf.Abs(start.x - centre.x) > reach || Mathf.Abs(start.y - centre.y) > reach) return;
+
+        float target = SampleStartNoise();
+
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float wx = centre.x + (x - half);
+                float wz = centre.y + (half - y);
+                float d = Vector2.Distance(new Vector2(wx, wz), start);
+                if (d >= outer) continue;
+
+                float t = Mathf.InverseLerp(terrainData.startFlatRadius, outer, d);
+                float w = 1f - Mathf.SmoothStep(0f, 1f, t);
+                map[x, y] = Mathf.Lerp(map[x, y], target, w);
+            }
+        }
+    }
+
+
+    public Vector3 GetStartPoint()
+    {
+        float h = terrainData.meshHeightCurve.Evaluate(SampleStartNoise()) * terrainData.meshHeighMultiplier;
+        Vector2 s = terrainData.startPosition;
+        return new Vector3(s.x, h, s.y) * terrainData.uniformScale;
     }
 
 

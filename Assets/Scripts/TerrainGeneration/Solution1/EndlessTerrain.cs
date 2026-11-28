@@ -40,9 +40,11 @@ public class EndlessTerrain : MonoBehaviour
         maxViewDist = detailLevels[detailLevels.Length - 1].visibleDistanceThreshold;
         float s = mapGenerator.terrainData.uniformScale;
         lootSpawnDist = Mathf.Min(lootSpawnDistance / s, maxViewDist);
-        lootDespawnDist = Mathf.Min(lootDespawnDistance, lootDespawnDistance + 10f);
+        //lootDespawnDist = Mathf.Min(lootDespawnDistance, lootDespawnDistance + 10f);
+        lootDespawnDist = Mathf.Min(Mathf.Max(lootDespawnDistance, lootSpawnDistance + 10f) / s, maxViewDist);
         //sqrLootSpawnDist = lootSpawnDist * lootDespawnDist;
-        sqrLootSpawnDist = Mathf.Pow(lootSpawnDist, lootSpawnDist);
+        sqrLootSpawnDist = Mathf.Pow(lootSpawnDist, 2);
+        //sqrLootSpawnDist = Mathf.Pow(lootSpawnDist, lootSpawnDist);
         chunkSize = MapGenerator.mapChunkSize - 1;
         chunksVisibleInViewDistance = Mathf.RoundToInt(maxViewDist / chunkSize);
 
@@ -53,7 +55,7 @@ public class EndlessTerrain : MonoBehaviour
     {
         viewerPosition = new Vector2(viewer.position.x, viewer.position.z) / mapGenerator.terrainData.uniformScale;
 
-        if(viewerPosition != oldViewerPosition)
+        if(viewerPosition != oldViewerPosition || Time.timeSinceLevelLoad < 20f)
         {
             foreach(TerrainChunk chunk in visibleTerrainChunks)
             {

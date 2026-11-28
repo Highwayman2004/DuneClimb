@@ -79,12 +79,15 @@ public static class LootRoute
         p.x >= min.x && p.x < max.x && p.y >= min.y && p.y < max.y;
 
 
-    public static IEnumerable<RoutePoint> PointsInChunk(Vector2 coord, int chunkSize, int seed, LootData data)
+    public static IEnumerable<RoutePoint> PointsInChunk(Vector2 coord, int chunkSize, int seed, LootData data, Vector2 startPos, float startMinDist)
     {
         Axis axis = new Axis(data, chunkSize);
         Vector2 centre = coord * chunkSize;
         Vector2 min = centre - Vector2.one * (chunkSize * 0.5f);
         Vector2 max = centre + Vector2.one * (chunkSize * 0.5f);
+
+        foreach (RoutePoint sp in StarterPoints(startPos, startMinDist, seed, data, axis, min, max))
+            yield return sp;
 
         int x0 = axis.Index(min.x) - 1, x1 = axis.Index(max.x) + 1;
         int y0 = axis.Index(min.y) - 1, y1 = axis.Index(max.y) + 1;
@@ -168,5 +171,49 @@ public static class LootRoute
                 if (d < best) { best = d; resultWorldXZ = n * uniformScale; found = true; }
             }
         return found;
+    }
+
+
+    static IEnumerable<RoutePoint> StarterPoints(Vector2 start, float minDist, int seed, LootData data,
+    Axis axis, Vector2 min, Vector2 max)
+    {
+        if (data.starterScrapCount <= 0) yield break;
+
+        int cx0 = axis.Index(start.x), cy0 = axis.Index(start.y);
+        float best = float.MaxValue;
+        Vector2 target = default;
+        bool found = false;
+
+        for (int cy = cy0 - 3; cy <= cy0 + 3; cy++)
+            for (int cx = cx0 - 3; cx <= cx0 + 3; cx++)
+            {
+                if (!NodeHasFuel(seed, cx, cy, data.nodeFuelChance)) continue;
+                Vector2 n = NodePos(seed, cx, cy, axis);
+                float d = (n - start).sqrMagnitude;
+                if (d < best) { best = d; target = n; found = true; }
+            }
+        if (!found) yield break;
+
+        Vector2 dir = (target - start).normalized;
+        float distToNode = Mathf.Sqrt(best);
+
+        for (int k = 0; k < data.starterScrapCount; k++)
+        {
+            float d = minDist + k * data.spacing;
+            if (d > distToNode - data.spacing) break;
+
+            Vector2 p = start + dir * d;
+            if (!Inside(p, min, max)) continue;
+
+            var rng = new System.Random(System.HashCode.Combine(seed, k, 8123));
+            yield return new RoutePoint
+            {
+                worldPos = p,
+                isFuel = false,
+                id = NonZero(System.HashCode.Combine(seed, k, 8123, 1)),
+                yaw = (float)rng.NextDouble() * 360f,
+                variant = rng.Next()
+            };
+        }
     }
 }

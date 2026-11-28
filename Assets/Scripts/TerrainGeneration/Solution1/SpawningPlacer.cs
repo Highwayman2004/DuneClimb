@@ -51,6 +51,20 @@ public static class SpawningPlacer
             return false;
         }
 
+        Vector3 startSolid = default;
+        bool hasStartSolid = false;
+        {
+            Vector2 startLocal = terrain.startPosition - coord * chunkSize;
+            float reach = half + terrain.startClearRadius;
+            if (Mathf.Abs(startLocal.x) < reach && Mathf.Abs(startLocal.y) < reach)
+            {
+                startSolid = new Vector3(startLocal.x, startLocal.y, terrain.startClearRadius);
+                solids.Add(startSolid);
+                hasStartSolid = true;
+            }
+        }
+
+
         for (int r = 0; r < spawningData.rules.Length; r++)
             if (spawningData.rules[r].mode == SpawnMode.Landmark)
                 GenerateLandmark(spawningData.rules[r], r);
@@ -59,6 +73,7 @@ public static class SpawningPlacer
             if (spawningData.rules[r].mode == SpawnMode.Scatter)
                 GenerateScatter(spawningData.rules[r], r);
 
+        if (hasStartSolid) solids.Remove(startSolid);
         GenerateLoot(spawningData.lootData);
 
         return result;
@@ -263,6 +278,8 @@ public static class SpawningPlacer
                 Vector2 centre = new Vector2(cx - half, half - cy);
                 float baseHeight = sum / 9f - rule.sinkAmount;
 
+                if (IsBlocked(centre, rule.footprintRadius + 4f)) continue;
+
                 if (rule.prefabs != null && rule.prefabs.Length > 0)
                     result.Add(new Placement
                     {
@@ -302,10 +319,26 @@ public static class SpawningPlacer
         {
             if (loot == null) return;
 
-            var points = new List<LootRoute.RoutePoint>(LootRoute.PointsInChunk(coord, chunkSize, worldSeed, loot));
+            /*var points = new List<LootRoute.RoutePoint>(LootRoute.PointsInChunk(coord, chunkSize, worldSeed, loot));
+            Vector2 chunkCentre = coord * chunkSize;
+            float lootScale = 1f / terrain.uniformScale;
+            int limit = half - 2;*/
+
             Vector2 chunkCentre = coord * chunkSize;
             float lootScale = 1f / terrain.uniformScale;
             int limit = half - 2;
+
+
+            float clear = loot.startClearRadius / terrain.uniformScale;
+            Vector2 startInChunk = terrain.startPosition - chunkCentre;
+            if (clear > 0f && Mathf.Abs(startInChunk.x) < half + clear && Mathf.Abs(startInChunk.y) < half + clear)
+                solids.Add(new Vector3(startInChunk.x, startInChunk.y, clear));
+
+
+            float starterDist = Mathf.Max(loot.starterDistance, loot.startClearRadius + 3f) / terrain.uniformScale;
+            var points = new List<LootRoute.RoutePoint>(
+                LootRoute.PointsInChunk(coord, chunkSize, worldSeed, loot, terrain.startPosition, starterDist));
+
 
             for (int pass = 0; pass < 2; pass++)
             {

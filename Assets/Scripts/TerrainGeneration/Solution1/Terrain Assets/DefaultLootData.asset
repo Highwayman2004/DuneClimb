@@ -23,6 +23,13 @@ MonoBehaviour:
   spacing: 14
   sideJitter: 4
   alongJitter: 0.3
+  cellGrowth: 0.5
+  maxCellSizeInChunks: 6
   lootRadius: 1.5
   maxSlope: 35
   heightOffset: 1.32
+  scrapHeightOffset: 0.1
+  fuelHeightOffset: 0.3
+  startClearRadius: 17
+  starterScrapCount: 4
+  starterDistance: 25

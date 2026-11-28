@@ -30,4 +30,10 @@ public class LootData : ScriptableObject
     public float heightOffset = 0.5f;
     public float scrapHeightOffset = 0.1f;
     public float fuelHeightOffset = 0.3f;
+
+
+    [Header("Around the player start (world units)")]
+    public float startClearRadius = 15f;
+    public int starterScrapCount = 4;
+    public float starterDistance = 25f;
 }

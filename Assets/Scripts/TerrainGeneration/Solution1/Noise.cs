@@ -93,4 +93,29 @@ public static class Noise
 
         return noiseMap;
     }
+
+
+    public static float SampleGlobal(float worldX, float worldZ, int seed, float scale,
+    int octaves, float persistance, float lacunarity, Vector2 offset)
+    {
+        System.Random prng = new System.Random(seed);
+        if (scale <= 0) scale = 0.0001f;
+
+        float maxPossibleHeight = 0, amplitude = 1, frequency = 1, noiseHeight = 0;
+        for (int i = 0; i < octaves; i++)
+        {
+            float offsetX = prng.Next(-100000, 100000) + offset.x;
+            float offsetY = prng.Next(-100000, 100000) - offset.y;
+
+            float sampleX = (worldX + offsetX) / scale * frequency;
+            float sampleY = (-worldZ + offsetY) / scale * frequency;
+            noiseHeight += (Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1) * amplitude;
+
+            maxPossibleHeight += amplitude;
+            amplitude *= persistance;
+            frequency *= lacunarity;
+        }
+        float normalized = (noiseHeight + 1) / (2f * maxPossibleHeight / 1.4f);
+        return Mathf.Clamp(normalized, 0, int.MaxValue);
+    }
 }
